@@ -12,7 +12,11 @@ const Tab = createMaterialBottomTabNavigator();
 class MainRoot extends Component {
   render() {
     return (
-      <Tab.Navigator initialRouteName="Home">
+      <Tab.Navigator
+        activeColor="#e91e63"
+        barStyle={{ backgroundColor: "tomato" }}
+        initialRouteName="Home"
+      >
         <Tab.Screen
           options={{
             tabBarLabel: "Home",
@@ -23,8 +27,26 @@ class MainRoot extends Component {
           name="Home"
           component={Home}
         />
-        <Tab.Screen name="Favorite" component={Favorite} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Favorite",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="heart" color={color} size={26} />
+            ),
+          }}
+          name="Favorite"
+          component={Favorite}
+        />
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="cog" color={color} size={26} />
+            ),
+          }}
+          name="Settings"
+          component={Settings}
+        />
       </Tab.Navigator>
     );
   }

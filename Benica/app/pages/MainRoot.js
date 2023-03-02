@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import Constants from "expo-constants";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import Home from "./Home.Js";
+import Home from "./Home";
 import Favorite from "./Favorite";
 import Settings from "./Settings";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";

@@ -48,7 +48,7 @@ export default class Home extends Component {
         "&language=en-US&query=" +
         query
     )
-      .then((response) => response.json())
+      .then((response) => {response.json(); console.log(JSON.stringify(response))})
       .then((responseJson) => {
         const moviedata = [];
         var allgenres = this.genres;

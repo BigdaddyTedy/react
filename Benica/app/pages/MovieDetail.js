@@ -13,7 +13,7 @@ import {
 import YoutubePlayer from "react-native-youtube-iframe";
 import Constants from "expo-constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import ChipGroup from "./../components/ChipGroup";
 import TeaserTrailer from "./../models/TeaserTrailer";
 import TrailerItem from "../components/TrailerItem";
@@ -547,6 +547,34 @@ class MovieDetail extends Component {
                           );
                         })}
                       </View>
+                      <View style={{
+                        marginTop:10,
+                        marginBottom:7,
+                        
+
+                        
+                      }}>
+                        <Text style={{
+                        fontWeight: "bold",
+                        textTransform:"uppercase",
+                        
+                        }}>
+                          comment</Text>
+                          <TextInput style={{ 
+                            color: '#000',
+                            paddingRight: 5,
+                            paddingLeft: 5,
+                            fontSize: 18,
+                            lineHeight: 23,
+                            flex: 2,
+                            borderWidth:0.5,
+                            borderColor:'#000',
+                            borderBottomEndRadius:5,
+                            borderBottomLeftRadius:5,
+                            borderTopEndRadius:5,
+                            borderTopLeftRadius:5}} placeholder="drop the comment ..." />
+
+                        </View>
                       <View
                         style={{
                           justifyContent: "space-between",
@@ -563,6 +591,7 @@ class MovieDetail extends Component {
                         >
                           {IMLocalized("casts")}
                         </Text>
+                     
                         <TouchableWithoutFeedback
                           onPress={() =>
                             this.props.navigation.navigate("CastViewAll", {
@@ -652,7 +681,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "poppins-sb",
     marginTop: 10,
-  },
+  }
+ 
 });
 
 export default MovieDetail;

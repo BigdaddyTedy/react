@@ -115,7 +115,7 @@ class MainRoot extends Component {
                   tabBarLabel: IMLocalized("favorites"),
                   tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons
-                      name="heart"
+                      name="star"
                       color={color}
                       size={22}
                     />

@@ -555,11 +555,11 @@ class MovieDetail extends Component {
                         
                       }}>
                         <Text style={{
-                        fontWeight: "bold",
+                        fontWeight: "Normal",
                         textTransform:"uppercase",
                         
                         }}>
-                          comment</Text>
+                          {IMLocalized("comment")}</Text>
                           <TextInput style={{ 
                             color: '#000',
                             paddingRight: 5,

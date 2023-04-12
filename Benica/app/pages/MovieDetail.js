@@ -68,7 +68,7 @@ class MovieDetail extends Component {
     //   );
     // });
 
-    db.exec([ { sql: 'CREATE TABLE IF NOT EXISTS Comments (id INT PRIMARY KEY AUTOINCREMENT, movieId TEXT, description TEXT);', args: [] } ], false, () => {
+    db.exec([ { sql: 'CREATE TABLE IF NOT EXISTS Comments (id INT, movieId TEXT, description TEXT);', args: [] } ], false, () => {
       console.log("CREATED")
     })
     this.getTriggerValue();
@@ -108,7 +108,7 @@ class MovieDetail extends Component {
           if (_array.length != 0) {
             console.log(_array)
             this.setState({
-              comments: _array
+              comments: _array.reverse()
             })
           } else {
             // console.log("data yok");
@@ -202,6 +202,10 @@ class MovieDetail extends Component {
         ],
         (txObj, resultSet) => {
           console.log("Commented")
+
+          this.textInput.clear()
+
+          this.readComments();
         },
         (txObj, error) => console.log("Error", error)
       );
@@ -627,23 +631,28 @@ class MovieDetail extends Component {
                             borderTopLeftRadius:5}} placeholder="drop the comment ..."
                             onSubmitEditing={(e) => {
                               this.onComment(e.nativeEvent.text)
-                            }} />
+                            }} ref={input => { this.textInput = input }} />
 
                         </View>
-                        
+
+                      {this.state.comments ? 
                       <ScrollView>
-                        {this.state.castResults.map((cast, index) => {
+                        {this.state.comments.map((comment, index) => {
                           return index < 4 ? (
-                            <CastItem
-                              cast={cast}
-                              context={context}
-                              key={cast.id}
-                            />
+                            <Text
+                              key={index}
+                              style={[
+                                styles.comment,
+                                { color: isDarkMode ? light.bg : dark.bg },
+                              ]}
+                            >
+                              {comment.description}
+                            </Text>
                           ) : (
                             <View key={cast.id} />
                           );
                         })}
-                      </ScrollView>
+                      </ScrollView> : <View /> }
                       <View
                         style={{
                           justifyContent: "space-between",
@@ -735,6 +744,14 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     fontFamily: "poppins-l",
+  },
+  comment: {
+    fontSize: 14,
+    fontFamily: "poppins-l",
+    marginTop: 4,
+    borderBottomColor: "#eee",
+    borderBottomWidth: 1,
+    padding: 10
   },
   poster: {
     height: 281,

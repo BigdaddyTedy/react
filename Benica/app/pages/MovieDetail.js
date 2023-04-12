@@ -470,7 +470,7 @@ class MovieDetail extends Component {
                     color={isDarkMode ? light.bg : dark.bg}
                   />
                 </TouchableWithoutFeedback>
-                {this.state.isShow ? (
+                {!this.state.isShow ? (
                   <TouchableWithoutFeedback
                     onPress={() => this.favoriteProcess(this.movieItem)}
                   >

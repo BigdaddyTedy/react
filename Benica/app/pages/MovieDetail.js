@@ -54,11 +54,23 @@ class MovieDetail extends Component {
     super(props);
     this.movieItem = props.route.params.item;
     this.readMovieData(this.movieItem);
+    this.readComments();
     var topSpace = Constants.statusBarHeight + 10;
     this.scrollHeight =
       Dimensions.get("screen").height -
       (Platform.OS == "ios" ? 0 : topSpace) -
       70;
+
+    console.log("CREATE Comments TABLE")
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "CREATE TABLE [IF NOT EXISTS] Comments (id INT, movieId TEXT, description TEXT);"
+    //   );
+    // });
+
+    db.exec([ { sql: 'CREATE TABLE IF NOT EXISTS Comments (id INT PRIMARY KEY AUTOINCREMENT, movieId TEXT, description TEXT);', args: [] } ], false, () => {
+      console.log("CREATED")
+    })
     this.getTriggerValue();
   }
 
@@ -87,7 +99,28 @@ class MovieDetail extends Component {
     }
   };
 
+  readComments () {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM Comments WHERE movieId = ?",
+        [this.movieItem.id],
+        (txObj, { rows: { _array } }) => {
+          if (_array.length != 0) {
+            console.log(_array)
+            this.setState({
+              comments: _array
+            })
+          } else {
+            // console.log("data yok");
+          }
+        },
+        (txObj, error) => console.error(error)
+      );
+    });
+  }
+
   readMovieData(data) {
+    console.log("Finding data ...")
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM Favorites WHERE movie_id = ?",
@@ -159,18 +192,18 @@ class MovieDetail extends Component {
   onComment = async (value) => {
     console.log(value)
 
+    console.log("SUCCESS")
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM Comments WHERE movie_id = ?",
-        [data.id],
-        (txObj, { rows: { _array } }) => {
-          if (_array.length != 0) {
-            this.setState({ isFavorite: true });
-          } else {
-            // console.log("data yok");
-          }
+        "INSERT INTO Comments (movieId, description) values (?, ?)",
+        [
+          this.movieItem.id,
+          value,
+        ],
+        (txObj, resultSet) => {
+          console.log("Commented")
         },
-        (txObj, error) => console.error(error)
+        (txObj, error) => console.log("Error", error)
       );
     });
   }
@@ -597,6 +630,20 @@ class MovieDetail extends Component {
                             }} />
 
                         </View>
+                        
+                      <ScrollView>
+                        {this.state.castResults.map((cast, index) => {
+                          return index < 4 ? (
+                            <CastItem
+                              cast={cast}
+                              context={context}
+                              key={cast.id}
+                            />
+                          ) : (
+                            <View key={cast.id} />
+                          );
+                        })}
+                      </ScrollView>
                       <View
                         style={{
                           justifyContent: "space-between",

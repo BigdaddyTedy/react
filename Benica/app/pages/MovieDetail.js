@@ -156,6 +156,25 @@ class MovieDetail extends Component {
     );
   };
 
+  onComment = async (value) => {
+    console.log(value)
+
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM Comments WHERE movie_id = ?",
+        [data.id],
+        (txObj, { rows: { _array } }) => {
+          if (_array.length != 0) {
+            this.setState({ isFavorite: true });
+          } else {
+            // console.log("data yok");
+          }
+        },
+        (txObj, error) => console.error(error)
+      );
+    });
+  }
+
   downloadFile = async (data, process) => {
     const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
     const dirInfo = await FileSystem.getInfoAsync(movieDir);
@@ -572,7 +591,10 @@ class MovieDetail extends Component {
                             borderBottomEndRadius:5,
                             borderBottomLeftRadius:5,
                             borderTopEndRadius:5,
-                            borderTopLeftRadius:5}} placeholder="drop the comment ..." />
+                            borderTopLeftRadius:5}} placeholder="drop the comment ..."
+                            onSubmitEditing={(e) => {
+                              this.onComment(e.nativeEvent.text)
+                            }} />
 
                         </View>
                       <View

@@ -371,7 +371,7 @@ class MovieDetail extends Component {
                 statusBarTranslucent={true}
                 visible={this.state.modalVisible}
                 onRequestClose={() => {
-                  this.setState({ modalVisible: false });
+                  this.setState({ modalVisible: true });
                 }}
               >
                 <View
@@ -383,7 +383,8 @@ class MovieDetail extends Component {
                   }}
                 >
                   <TouchableWithoutFeedback
-                    onPress={() => this.setState({ modalVisible: false })}
+                    onPress={() => this.setState({ modalVisible: true })} 
+                    
                   >
                     <View
                       style={{
